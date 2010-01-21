@@ -31,6 +31,11 @@ root@sfqload01  ~
 # rabbitmq-server
 
 
+Start Redis:
+
+jjackson@sfqload01  /systems/mail_injection
+$ redis-server
+
 Start an agent:
 
 jjackson@sfqload01  /systems/mail_injection
