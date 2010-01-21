@@ -1,0 +1,8 @@
+Military TXT Test
+
+#{@fname}
+#{@lname}
+#{@mailid}
+#{@memberid}
+#{@status}
+

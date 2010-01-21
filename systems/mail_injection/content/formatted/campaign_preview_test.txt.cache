@@ -1,0 +1,8 @@
+ _buf << %Q`Military TXT Test\r
+\r
+#{@fname}\r
+#{@lname}\r
+#{@mailid}\r
+#{@memberid}\r
+#{@status}\r
+\r\n`

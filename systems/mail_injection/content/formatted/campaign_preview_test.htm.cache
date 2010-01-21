@@ -1,0 +1,14 @@
+ _buf << %Q`<html>\r
+<title>\r
+<h1>Military HTML Test</h1>\r
+</title>\r
+<body>\r
+<ul>\r
+ <li>#{@fname}</li>\r
+ <li>#{@lname}</li>\r
+ <li>#{@mailid}</li>\r
+ <li>#{@memberid}</li>\r
+ <li>#{@status}</li>\r
+</ul>\r
+</body>\r
+</html>\r\n`
