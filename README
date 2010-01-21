@@ -1,0 +1,52 @@
+Mail Sauce
+
+Description:
+
+Mail Sauce is the beginning of a distributed email system which utilizes:
+
+Nanite - http://github.com/ezmobius/nanite
+
+Tenjin - http://www.kuwata-lab.com/tenjin/
+
+Redis - http://code.google.com/p/redis/
+
+TMail - http://tmail.rubyforge.org/   
+
+	This will most likely be replaced with EM::Protocols::SmtpClient:
+
+	http://eventmachine.rubyforge.org/EventMachine/Protocols/SmtpClient.html
+
+
+Usage:
+
+Start the mapper:
+
+jjackson@sfqload01  /systems/mail_injection
+$ ./start_mapper.rb
+
+
+Start RabbitMQ:
+
+root@sfqload01  ~
+# rabbitmq-server
+
+
+Start an agent:
+
+jjackson@sfqload01  /systems/mail_injection
+$ ../../bin/nanite-agent --token a -l debug -h sfqload01 --single-threaded --prefetch 1
+
+
+Send a list:
+
+jjackson@sfqload01  /systems/mail_injection
+$ ./send.rb -l edu_spouse_v_half2a
+
+At the moment sending a list is specific to my environment.  You can see what is going on in send.rb, but basically it is pulling a list down from mysql and then splitting that into a determined size which is issued to Nanite.push.
+
+
+This is very much a first pass at things, lots of bad code, just trying to get an idea into some code and learn a bit more about the tech that im using to build this thing out of.  Any schooling is welcome, hit me up at:
+
+ jason (dot) jackson (at) monster (dot) com
+
+
