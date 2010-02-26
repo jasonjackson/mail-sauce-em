@@ -66,7 +66,7 @@ class Injection
 
       mail = MailFactory.new
       mail.to = member['email']
-      email.from = "Monster.com <updates@monster.com>"
+      mail.from = "Monster.com <updates@monster.com>"
       mail.subject = sub_output ? sub_output : "Subject content not found."
       mail.text = txt_output ? txt_output : "TXT content not found."
       mail.html = html_output ? html_output : "HTML content not found."
