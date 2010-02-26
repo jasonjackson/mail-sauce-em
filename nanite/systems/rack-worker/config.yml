@@ -1,0 +1,5 @@
+---
+:pass: testing
+:vhost: /nanite
+:user: nanite
+:identity: fred

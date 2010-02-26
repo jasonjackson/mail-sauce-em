@@ -1,0 +1,5 @@
+---
+:user: nanite
+:pass: testing
+:vhost: /nanite
+:log_level: debug
