@@ -1,0 +1,63 @@
+Mail Sauce
+
+Description:
+
+Mail Sauce is the beginning of a distributed email newsletter system which utilizes:
+
+Nanite - http://github.com/ezmobius/nanite
+
+Tenjin - http://www.kuwata-lab.com/tenjin/
+
+Redis - http://code.google.com/p/redis/
+
+EventMachine - http://eventmachine.rubyforge.org
+
+
+
+
+Usage:
+
+Start the mapper:
+
+jjackson@sfqload01  /systems/mail_injection
+$ ./start_mapper.rb
+
+
+Start RabbitMQ:
+
+root@sfqload01  ~
+# rabbitmq-server
+
+
+Start Redis:
+
+jjackson@sfqload01  /systems/mail_injection
+$ redis-server
+
+
+Start an agent or ten:
+
+jjackson@sfqload01  /systems/mail_injection
+$ ../../bin/nanite-agent --token a -l debug -h sfqload01 --single-threaded --prefetch 1
+
+
+Start Alice and Wonderland:
+
+rabbitmq@sfqload01  /alice
+$ ./start.sh -alice rabbithost "rabbit@sfqload01" -setcookie `cat /var/lib/rabbitmq/.erlang.cookie`
+
+* Note that alice must run as the user rabbitmq.
+
+
+Send a list:
+
+jjackson@sfqload01  /systems/mail_injection
+$ ./send.rb -l edu_spouse_v_half2a
+
+At the moment sending a list is specific to my environment.  You can see what is going on in send.rb, but basically it is pulling a list down from mysql and then splitting that into a determined size which is issued to Nanite.push.
+
+
+This is very much a first pass at things, lots of bad code, just trying to get an idea into some code and learn a bit more about the tech that im using to build this thing out of.  I have run into a few bugs that happen in certain situations, if you plan on using this get at me first.  Any schooling is welcome, hit me up at:
+
+http://dotrb.com and ping Jason Jackson (me)  or the site admin (me).
+
