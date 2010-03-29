@@ -11,9 +11,9 @@ require File.dirname(__FILE__) + '/../../lib/senderoptparse.rb'
 
 DOMAIN = "monster.com"
 DB_SERVER = "sfpmysql02"
-DB_USER = "login"
-DB_PASSWD = "pass"
-ENVELOPESIZE = 1000 
+DB_USER = "dbuser"
+DB_PASSWD = "dbpass"
+ENVELOPESIZE = 100
 
 
 #@content_dir = '/data/distributed_email/nanite/systems/mail_injection/content'
@@ -28,7 +28,6 @@ options = SenderOptparse.parse(ARGV)
 
 # Format the content to insert tracking codes and unsub links  (we are CAN-SPAM compliant!)
 def format_content(filename)
-#puts "formatting content"
   # Remove outdated content files.
   if File.exist?("#{@content_dir}/formatted/#{filename}")
     FileUtils.rm "#{@content_dir}/formatted/#{filename}", :force => true
@@ -42,7 +41,6 @@ def format_content(filename)
     FileUtils.mkdir_p "#{@content_dir}/formatted"
   end
 
-  # Add unsub links into the content for CAN-SPAM love.
   out_file = File.new("#{@content_dir}/formatted/#{filename}", 'w', 0644)
   buffer.each do |row|
     if (/monster\.com\/unsub/ =~ row)
@@ -65,6 +63,7 @@ end
 # the class of the payload to the correct mapper.  This is so we can send test
 # sends and priority sends to a different set of agents and a different queue in
 # rabbit so that they are not backed up waiting on regular production sends.
+@push_count = 0
 def push_payload(data,listname)
   content_hash = { "timestamp" => Time.now.to_i, "listname" => listname }
   if @test
@@ -78,7 +77,10 @@ def push_payload(data,listname)
   else
     data.each_slice(ENVELOPESIZE) do |envelope|
       payload = Array[content_hash, envelope]
+      #Nanite.push("/injection/mailer", Marshal.dump(payload), :selector => :rr)
       Nanite.push("/injection/mailer", Marshal.dump(payload), :target => 'nanite-normal-sends')
+      #Nanite.push("/injection/mailer", Marshal.dump(payload), :target => 'nanite-agent1')
+@push_count += 1
     end
   end
 end
@@ -144,7 +146,6 @@ member_hash = Hash.new
 content_hash = Hash.new
 payload = Array.new
 
-#puts "fetching from db and populating @data"
 
 while row = list_data.fetch do
      member_hash = { "listid" => @listid, "email" => row[0], "mailid" => row[1], "memberid" => row[2], "fname" => row[3], "lname" => row[4], "status" => row[5], "hash" => ''  }
@@ -163,8 +164,11 @@ EM.run do
 
     push_payload(@data,@listname)
 
-    EM.add_timer(120) { EM.stop_event_loop }
+    EM.add_timer(30) { EM.stop_event_loop }
 
   end
 end
+
+puts "pushed: #{@push_count}"
+
 

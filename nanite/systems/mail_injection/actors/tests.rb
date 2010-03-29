@@ -86,7 +86,7 @@ class Injection
     end
 
 
-    num_active_conns = 100
+    num_active_conns = 20
 
     pool = DeferrablePool.new(num_active_conns, jobs)
     pool.schedule

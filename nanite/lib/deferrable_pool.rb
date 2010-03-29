@@ -12,10 +12,14 @@ class DeferrablePool < EM::DefaultDeferrable
   end
 
   def schedule
-    while @running < @size
+    while @running < @size && @jobs.size > 0
+      puts "Jobs: #{@jobs.size}"
+      puts "Running: #{@running.size}"
+      puts "Size: #{@size.size}"
       @running += 1
+      job = @jobs.shift
       EM.next_tick do
-        deferrable = @jobs.shift.call
+        deferrable = job.call
         deferrable.callback { |*a| job_callback(*a) }
         deferrable.errback { |*a| job_errback(*a) }
       end
@@ -53,4 +57,3 @@ class DeferrablePool < EM::DefaultDeferrable
     succeed if @running == 0 && @jobs.empty?
   end
 end
-
