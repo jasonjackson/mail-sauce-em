@@ -57,7 +57,7 @@ $ ./send.rb -l edu_spouse_v_half2a
 At the moment sending a list is specific to my environment.  You can see what is going on in send.rb, but basically it is pulling a list down from mysql and then splitting that into a determined size which is issued to Nanite.push.
 
 
-This is very much a first pass at things, lots of bad code, just trying to get an idea into some code and learn a bit more about the tech that im using to build this thing out of.  I have run into a few bugs that happen in certain situations, if you plan on using this get at me first.  Any schooling is welcome, hit me up at:
+This is very much a first pass at things, lots of bad code, just trying to get an idea into some code and learn a bit more about the tech that im using to build this thing out of.  I have run into a few issues that happen in certain situations which i will discuss on my blog (url below) that may determine whether the technology used in this tool makes sense for you.  Hit me up at:
 
 http://dotrb.com and ping Jason Jackson (me)  or the site admin (me).
 
